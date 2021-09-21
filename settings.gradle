@@ -1,0 +1,2 @@
+rootProject.name='FirebaseMatching'
+include ':app'

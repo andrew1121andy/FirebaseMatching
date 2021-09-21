@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "984864906970",
+    "project_id": "fir-matching-f1a78",
+    "storage_bucket": "fir-matching-f1a78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984864906970:android:b77a0924420fedd5fa0fe3",
+        "android_client_info": {
+          "package_name": "com.github.andrew1121andy.firebasematching"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "984864906970-uil2u4nrl0lhbborccksfvm5vel987dp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaJAQMZYlT8s_xr3OPT5dcMNMGiiB6EGA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "984864906970-uil2u4nrl0lhbborccksfvm5vel987dp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
