@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.github.andrew1121andy.firebasematching.R
 import com.github.andrew1121andy.firebasematching.databinding.LoginFragmentBinding
+import com.github.andrew1121andy.firebasematching.view.activity.MainActivity
 import com.github.andrew1121andy.firebasematching.viewmodel.LoginViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class LoginFragment: Fragment() {
 
@@ -21,6 +24,31 @@ class LoginFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.viewModel = viewModel
+        binding?.also {
+            it.viewModel = viewModel
+            it.lifecycleOwner = this // 双方向DataBindingに必要
+        }
+        viewModel.apply {
+            loginError.observe(viewLifecycleOwner) {
+                binding?.root?.also {
+                    Snackbar.make(it, R.string.login_error, Snackbar.LENGTH_SHORT).show()
+                }
+            }
+            loginSuccess.observe(viewLifecycleOwner) {
+                activity?.also {
+                    MainActivity.start(it)
+                }
+            }
+            changePasswordMailError.observe(viewLifecycleOwner) {
+                binding?.root?.also {
+                    Snackbar.make(it, R.string.change_password_error, Snackbar.LENGTH_SHORT).show()
+                }
+            }
+            changePasswordMailSuccess.observe(viewLifecycleOwner) {
+                binding?.root?.also {
+                    Snackbar.make(it, R.string.change_password_success, Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 }

@@ -27,6 +27,10 @@
     <string name="mail_address">メールアドレス</string>
     <string name="password">パスワード(8文字以上16文字以下)</string>
     <string name="password_confirm">パスワード確認用</string>
+    <string name="password_forgot">パスワードを忘れた場合は、\nメールアドレス入力欄にメールアドレスを入力し、\nこちらを押してください。</string>
     <string name="email_error">メールアドレスを正しく入力してください</string>
     <string name="password_error">パスワードを正しく入力してください</string>
+    <string name="login_error">ログインに失敗しました。\nメールアドレス、パスワードを再確認してもう一度お試しください。</string>
+    <string name="change_password_success">パスワード変更のためのメールをお送りしました。\nメールを確認してパスワードを変更してください。</string>
+    <string name="change_password_error">パスワード変更のメールが送信できませんでした。\nメールアドレスを確認してもう一度押してください。</string>
 </resources>

@@ -5,29 +5,64 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.andrew1121andy.firebasematching.R
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginViewModel : ViewModel() {
 
-    val email = MutableLiveData<String>()
-    val password = MutableLiveData<String>()
-
-    val emailError = MediatorLiveData<Int?>()
-    val passwordError = MediatorLiveData<Int?>()
-
-    val canSubmit = MediatorLiveData<Boolean>()
-
-    init {
-        emailError.addSource(email) { canSubmit() }
-        passwordError.addSource(password) { canSubmit() }
-        canSubmit.addSource(email) { canSubmit() }
-        canSubmit.addSource(password) { canSubmit() }
+    val email = MutableLiveData<String>().apply {
+        value = ""
     }
+    val password = MutableLiveData<String>().apply {
+        value = ""
+    }
+
+    val emailError = MutableLiveData<Int?>().apply {
+        value = null
+    }
+    val passwordError = MutableLiveData<Int?>().apply {
+        value = null
+    }
+
+    val canSendPasswordChangeMail = MediatorLiveData<Boolean>().also { result ->
+        result.addSource(emailError) { result.value = emailError.value == null }
+    }
+
+    val canSubmit = MediatorLiveData<Boolean>().also { result ->
+        result.addSource(email) { result.value = canSubmit() }
+        result.addSource(password) { result.value = canSubmit() }
+    }
+
+    val loginError = MutableLiveData<Unit>()
+    val loginSuccess = MutableLiveData<Unit>()
+    val changePasswordMailError = MutableLiveData<Unit>()
+    val changePasswordMailSuccess = MutableLiveData<Unit>()
 
     fun login() {
-        println("login")
+        val email = email.value ?: ""
+        val password = password.value ?: ""
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (!it.isSuccessful) {
+                    loginError.postValue(null)
+                    return@addOnCompleteListener
+                }
+                loginSuccess.postValue(null)
+            }
     }
 
-    private fun canSubmit() {
+    fun sendPasswordChangeMail() {
+        val email = email.value ?: ""
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+            .addOnCompleteListener {
+                if (!it.isSuccessful) {
+                    changePasswordMailError.postValue(null)
+                    return@addOnCompleteListener
+                }
+                changePasswordMailSuccess.postValue(null)
+            }
+    }
+
+    private fun canSubmit(): Boolean {
         val email = email.value ?: ""
         if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).find()) {
             emailError.value = R.string.email_error
@@ -41,7 +76,7 @@ class LoginViewModel : ViewModel() {
             passwordError.value = null
         }
         println("canSubmit emailError:${emailError.value} passwordError:${passwordError.value}")
-        canSubmit.value = emailError.value == null && passwordError.value == null
+        return emailError.value == null && passwordError.value == null
     }
 
     companion object {
