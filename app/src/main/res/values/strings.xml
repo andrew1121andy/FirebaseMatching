@@ -1,3 +1,25 @@
 <resources>
-    <string name="app_name">FirebaseMatching</string>
+    <!--Common-->
+    <string name="ok">OK</string>
+    <string name="cancel">キャンセル</string>
+    <!--RecyclerView -->
+    <string name="title_recycler_view">RecyclerView</string>
+    <!--ViewPager -->
+    <string name="title_view_pager">ViewPager</string>
+    <!--Firestore -->
+    <string name="title_chat_rooms">ChatRooms</string>
+    <string name="make_chat_rooms">チャットルーム作成</string>
+    <string name="enter_chat_room_name">ルーム名を入れてください</string>
+    <string name="make_message">メッセージを入力</string>
+    <!-- okHttp3 -->
+    <string name="title_ok_http">okHttp</string>
+    <string name="network_error_dialog_title">通信エラー</string>
+    <string name="network_error_dialog_message">通信状況が良い場所でもう一度お試しください。</string>
+    <!--location-->
+    <string name="title_location">Location</string>
+    <string name="check_button">check</string>
+    <string name="maker_button">Maker</string>
+    <string name="move_google_setting_dialog_title">位置情報をオンにしてください。</string>
+
+
 </resources>

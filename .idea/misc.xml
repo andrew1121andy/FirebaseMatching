@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/81803/AndroidStudioProjects/FirebaseMatching/app/src/main/res/layout/activity_main.xml" value="0.13541666666666666" />
+        <entry key="..\:/Users/81803/AndroidStudioProjects/FirebaseMatching/app/src/main/res/layout/firebase_auth_activity.xml" value="0.10666666666666667" />
+        <entry key="..\:/Users/81803/AndroidStudioProjects/FirebaseMatching/app/src/main/res/layout/gradle.xml" value="0.1" />
+        <entry key="..\:/Users/81803/AndroidStudioProjects/FirebaseMatching/app/src/main/res/layout/register_login_activity.xml" value="0.1" />
+        <entry key="..\:/Users/81803/AndroidStudioProjects/FirebaseMatching/app/src/main/res/layout/splash_activity.xml" value="0.6" />
       </map>
     </option>
   </component>
