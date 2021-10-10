@@ -25,6 +25,8 @@
     <string name="login_title">ログイン</string>
     <string name="register_title">会員登録</string>
     <string name="mail_address">メールアドレス</string>
-    <string name="password">パスワード</string>
+    <string name="password">パスワード(8文字以上16文字以下)</string>
     <string name="password_confirm">パスワード確認用</string>
+    <string name="email_error">メールアドレスを正しく入力してください</string>
+    <string name="password_error">パスワードを正しく入力してください</string>
 </resources>

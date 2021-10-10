@@ -15,6 +15,12 @@ class LoginFragment: Fragment() {
     private val viewModel : LoginViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return LoginFragmentBinding.inflate(inflater, container, false).root
+        binding = LoginFragmentBinding.inflate(inflater, container, false)
+        return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding?.viewModel = viewModel
     }
 }
