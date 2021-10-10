@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">FirebaseMatching</string>
     <!--Common-->
     <string name="ok">OK</string>
     <string name="cancel">キャンセル</string>
@@ -20,6 +21,10 @@
     <string name="check_button">check</string>
     <string name="maker_button">Maker</string>
     <string name="move_google_setting_dialog_title">位置情報をオンにしてください。</string>
-
-
+    <!-- RegisterLogin -->
+    <string name="login_title">ログイン</string>
+    <string name="register_title">会員登録</string>
+    <string name="mail_address">メールアドレス</string>
+    <string name="password">パスワード</string>
+    <string name="password_confirm">パスワード確認用</string>
 </resources>

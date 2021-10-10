@@ -8,5 +8,5 @@ class User {
 
     var deletedAt: Date? = null
 
-    var ngUids: List<string> = listof()
+    var ngUids: List<String> = listOf()
 }
