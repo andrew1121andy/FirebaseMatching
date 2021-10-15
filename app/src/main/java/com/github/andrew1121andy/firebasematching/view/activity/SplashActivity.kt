@@ -1,4 +1,4 @@
-package com.github.andrew1121andy.firebasematching.view
+package com.github.andrew1121andy.firebasematching.view.activity
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -12,7 +12,7 @@ import com.github.andrew1121andy.firebasematching.view.activity.RegisterLoginAct
 import com.github.andrew1121andy.firebasematching.viewmodel.SplashViewModel
 
 
-class SplashActivity: AppCompatActivity(){ //起動画面
+class SplashActivity : AppCompatActivity() { //起動画面
 
     private lateinit var binding: SplashActivityBinding
     private val viewModel: SplashViewModel by viewModels()
@@ -25,8 +25,9 @@ class SplashActivity: AppCompatActivity(){ //起動画面
             if (it) { // ログインしている
                 MainActivity.start(this)
             } else { // ログインしていない
-                RegisterLoginActivity.start(this) }
+                RegisterLoginActivity.start(this)
+            }
         })
-
+        viewModel.initUser()
     }
 }

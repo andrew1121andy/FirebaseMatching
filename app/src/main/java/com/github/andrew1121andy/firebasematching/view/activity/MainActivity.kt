@@ -15,6 +15,9 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         fun start(activity: Activity) =
-            activity.startActivity(Intent(activity, MainActivity::class.java))
+            activity.apply {
+                finishAffinity()
+                startActivity(Intent(this, MainActivity::class.java))
+            }
     }
 }
