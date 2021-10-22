@@ -5,7 +5,10 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.andrew1121andy.firebasematching.R
+import com.github.andrew1121andy.firebasematching.model.FirstLaunchScreen
+import com.github.andrew1121andy.firebasematching.model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginViewModel : ViewModel() {
 
@@ -33,7 +36,9 @@ class LoginViewModel : ViewModel() {
     }
 
     val loginError = MutableLiveData<Unit>()
-    val loginSuccess = MutableLiveData<Unit>()
+    val startMainEvent = MutableLiveData<Unit>()
+    val startProfileEvent = MutableLiveData<Unit>()
+
     val changePasswordMailError = MutableLiveData<Unit>()
     val changePasswordMailSuccess = MutableLiveData<Unit>()
 
@@ -46,7 +51,28 @@ class LoginViewModel : ViewModel() {
                     loginError.postValue(null)
                     return@addOnCompleteListener
                 }
-                loginSuccess.postValue(null)
+                checkProfile()
+            }
+    }
+
+    private fun checkProfile() { // userDataの入力が完了しているかを確認する
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        FirebaseFirestore.getInstance().collection("users")
+            .whereEqualTo(User::uid.name, uid)
+            .get()
+            .addOnCompleteListener {
+                if (!it.isSuccessful) { // 自分のデータ取得に失敗した場合はログアウトさせて、ログイン画面からやり直し
+                    FirebaseAuth.getInstance().signOut()
+                    loginError.postValue(null)
+                } else {
+                    it.result?.toObjects(User::class.java)?.firstOrNull()?.also { user ->
+                        if (user.hasAllProfile) {
+                            startMainEvent.postValue(null)
+                            return@addOnCompleteListener
+                        }
+                    }
+                    startProfileEvent.postValue(null)
+                }
             }
     }
 

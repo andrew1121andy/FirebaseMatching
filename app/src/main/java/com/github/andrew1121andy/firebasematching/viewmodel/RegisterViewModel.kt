@@ -14,13 +14,48 @@ class RegisterViewModel: ViewModel() {
     val password = MutableLiveData<String>().apply {
         value = ""
     }
+    val emailError = MutableLiveData<Int?>().apply {
+        value = null
+    }
+    val passwordError = MutableLiveData<Int?>().apply {
+        value = null
+    }
 
+    val canSubmit = MediatorLiveData<Boolean>().also { result ->
+        result.addSource(email) { result.value = canSubmit() }
+        result.addSource(password) { result.value = canSubmit() }
+    }
 
-    fun login() {
+    val registerError = MutableLiveData<Unit>()
+    val registerSuccess = MutableLiveData<Unit>()
+
+    fun register() {
         val email = email.value ?: ""
         val password = password.value ?: ""
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (!it.isSuccessful) {
+                    registerError.postValue(null)
+                    return@addOnCompleteListener
+                }
+                registerSuccess.postValue(null)
+            }
+    }
 
+    private fun canSubmit(): Boolean {
+        val email = email.value ?: ""
+        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).find()) {
+            emailError.value = R.string.email_error
+        } else {
+            emailError.value = null
+        }
+        val password = password.value ?: ""
+        if (password.length < MIN_PASSWORD_LENGTH || password.length > MAX_PASSWORD_LENGTH) {
+            passwordError.value = R.string.password_error
+        } else {
+            passwordError.value = null
+        }
+        return emailError.value == null && passwordError.value == null
     }
 
     companion object {

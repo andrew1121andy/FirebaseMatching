@@ -1,59 +1,85 @@
 package com.github.andrew1121andy.firebasematching.viewmodel
 
-import android.util.Patterns
+import android.text.format.DateFormat
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.github.andrew1121andy.firebasematching.R
+import com.github.andrew1121andy.firebasematching.model.Gender
+import com.github.andrew1121andy.firebasematching.model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
-class PersonalInformationViewModel {
+class PersonalInformationViewModel: ViewModel() {
 
-    val emails = MutableLiveData<String>().apply {
+    val name = MutableLiveData<String>().apply {
         value =""
     }
 
     val displayBirthday = MutableLiveData<String>().apply {
-        value =""
+        value = ""
     }
 
-    val nameError = MutableLiveData<String>().apply {
-        value =""
+    val nameError = MutableLiveData<Int?>()
+
+    val gender = MutableLiveData<Gender>().apply {
+        value = Gender.None
     }
+
+    var birthday: Long = 0L
 
     val canSubmit = MediatorLiveData<Boolean>().also { result ->
-        result.addSource(emails) { result.value = canSubmit() }
+        result.addSource(name) { result.value = canSubmit() }
         result.addSource(displayBirthday) { result.value = canSubmit() }
-        result.addSource(nameError) { result.value = canSubmit() }
+        result.addSource(gender) { result.value = canSubmit() }
     }
 
-    fun next() {
-        val email = emails.value ?: ""
-        val display = displayBirthday.value ?: ""
-        val name = nameError.value ?: ""
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+    val registerError = MutableLiveData<Unit>()
+    val registerSuccess = MutableLiveData<Unit>()
+
+    fun updateBirthday(time: Long) {
+        birthday = time
+        displayBirthday.postValue(DateFormat.format("yyyy/MM/dd", time).toString())
+    }
+
+    fun changeMale() {
+        gender.postValue(Gender.Male)
+        println("${gender.value}")
+    }
+
+    fun changeFemale() {
+        gender.postValue(Gender.Female)
+        println("${gender.value}")
+    }
+
+    fun saveUser() {
+        val user = User().apply {
+            uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+            name = this@PersonalInformationViewModel.name.value ?: ""
+            birthday = this@PersonalInformationViewModel.birthday
+            gender = (this@PersonalInformationViewModel.gender.value ?: Gender.Male).ordinal
+        }
+
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(user.uid)
+            .set(user)
             .addOnCompleteListener {
                 if (!it.isSuccessful) {
-                    loginError.postValue(null)
+                    registerError.postValue(null)
                     return@addOnCompleteListener
                 }
-                loginSuccess.postValue(null)
+                registerSuccess.postValue(null)
             }
     }
 
     private fun canSubmit(): Boolean {
-        val email = emails.value ?: ""
-        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).find()) {
-            email.value = R.string.email_error
+        val name = name.value ?: ""
+        if (name.isEmpty()) {
+            nameError.value = R.string.name_error
         } else {
-            emailError.value = null
+            nameError.value = null
         }
-        val password = password.value ?: ""
-        if (password.length < LoginViewModel.MIN_PASSWORD_LENGTH || password.length > LoginViewModel.MAX_PASSWORD_LENGTH) {
-            passwordError.value = R.string.password_error
-        } else {
-            passwordError.value = null
-        }
-        println("canSubmit emailError:${emailError.value} passwordError:${passwordError.value}")
-        return emailError.value == null && passwordError.value == null
+        return nameError.value == null && gender.value != Gender.None && displayBirthday.value?.isNotEmpty() == true
     }
 }

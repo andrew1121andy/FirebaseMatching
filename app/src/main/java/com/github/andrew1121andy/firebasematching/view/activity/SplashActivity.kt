@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.github.andrew1121andy.firebasematching.R
 import com.github.andrew1121andy.firebasematching.databinding.SplashActivityBinding
+import com.github.andrew1121andy.firebasematching.model.FirstLaunchScreen
 import com.github.andrew1121andy.firebasematching.view.activity.MainActivity
 import com.github.andrew1121andy.firebasematching.view.activity.RegisterLoginActivity
 import com.github.andrew1121andy.firebasematching.viewmodel.SplashViewModel
@@ -21,13 +22,18 @@ class SplashActivity : AppCompatActivity() { //起動画面
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.splash_activity)
 
-        viewModel.isLogin.observe(this, Observer {
-            if (it) { // ログインしている
-                MainActivity.start(this)
-            } else { // ログインしていない
-                RegisterLoginActivity.start(this)
+        viewModel.firstLaunch.observe(this, Observer {
+            when(it) {
+                FirstLaunchScreen.Main -> MainActivity.start(this)
+                FirstLaunchScreen.LoginRegister -> RegisterLoginActivity.start(this)
+                FirstLaunchScreen.Profile -> PersonalInformationActivity.start(this)
             }
         })
         viewModel.initUser()
+    }
+
+    // MainActivity.start(this)
+    private fun checkHasProfile() {
+
     }
 }

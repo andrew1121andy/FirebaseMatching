@@ -25,19 +25,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         button.setOnClickListener {
-            showDatePicker()
         }
-    }
-
-    private fun showDatePicker() {
-        val datePickerDialog = DatePickerDialog(
-            this,
-            DatePickerDialog.OnDateSetListener() {view, year, month, dayOfMonth->
-                textView.text = "選択した日付は「${year}/${month + 1}/${dayOfMonth}」です"
-            },
-            2020,
-            3,
-            1)
-        datePickerDialog.show()
     }
 }

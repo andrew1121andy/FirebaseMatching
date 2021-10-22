@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="com.github.andrew1121andy.firebasematching.model.Gender" />
 
         <variable
             name="viewModel"
@@ -14,14 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/emailText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:text="@={viewModel.emails}"
-            tools:ignore="MissingConstraints" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nameFiled"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -30,14 +24,23 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
-            android:hint="@string/mail_address"
+            android:hint="@string/name"
             app:error="@{viewModel.nameError}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLength="16"
+                android:text="@={viewModel.name}" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/nameLabel"
+            android:id="@+id/birthdayLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -59,58 +62,58 @@
             android:hint="@string/birthday_hint"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:text="{viewModel.displayBirthday}"
+            android:text="@{viewModel.displayBirthday}"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/nameLabel"
+            app:layout_constraintBottom_toBottomOf="@id/birthdayLabel"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/nameLabel"
-            app:layout_constraintTop_toTopOf="@+id/nameLabel"
+            app:layout_constraintStart_toStartOf="@+id/birthdayLabel"
+            app:layout_constraintTop_toTopOf="@+id/birthdayLabel"
             tools:text="@string/birthday_hint" />
 
+
         <TextView
-            android:id="@+id/gender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
+            android:id="@+id/maleTextView"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="32dp"
+            android:background="@{viewModel.gender == Gender.Male ? @drawable/background_gednder_button_selected : @drawable/background_gender_button}"
+            android:gravity="center"
+            android:onClick="@{() -> viewModel.changeMale()}"
             android:text="@string/male"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameFiled" />
+            app:layout_constraintTop_toBottomOf="@id/birthdayLabel" />
 
         <TextView
-            android:id="@+id/genderText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:gravity="end"
-            android:hint="@string/female"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:text="{viewModel.displayBirthday}"
+            android:id="@+id/femaleTextView"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="64dp"
+            android:background="@{viewModel.gender == Gender.Female ? @drawable/background_gednder_button_selected : @drawable/background_gender_button}"
+            android:gravity="center"
+            android:onClick="@{() -> viewModel.changeFemale()}"
+            android:text="@string/female"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/gender"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/gender"
-            app:layout_constraintTop_toTopOf="@+id/gender"
-            tools:text="@string/female" />
+            app:layout_constraintTop_toBottomOf="@id/birthdayLabel" />
+
 
         <com.google.android.material.button.MaterialButton
-        android:id="@+id/nextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:enabled="@{viewModel.canSubmit}"
-        android:onClick="@{() -> viewModel.next()}"
-        android:text="@string/next_title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:enabled="@{viewModel.canSubmit}"
+            android:onClick="@{() -> viewModel.saveUser()}"
+            android:text="@string/next_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
