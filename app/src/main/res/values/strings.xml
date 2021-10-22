@@ -33,4 +33,11 @@
     <string name="login_error">ログインに失敗しました。\nメールアドレス、パスワードを再確認してもう一度お試しください。</string>
     <string name="change_password_success">パスワード変更のためのメールをお送りしました。\nメールを確認してパスワードを変更してください。</string>
     <string name="change_password_error">パスワード変更のメールが送信できませんでした。\nメールアドレスを確認してもう一度押してください。</string>
+    <!--PersonalInformation -->
+    <string name="name">名前</string>
+    <string name="birthday">誕生日</string>
+    <string name="birthday_hint">選択</string>
+    <string name="next_title">続ける</string>
+    <string name="male">男性</string>
+    <string name="female">女性</string>
 </resources>
