@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 class PersonalInformationViewModel {
 
-    val emails = MutableLiveData<String>().apply {
+    val name = MutableLiveData<String>().apply {
         value =""
     }
 
@@ -21,7 +21,7 @@ class PersonalInformationViewModel {
     }
 
     val canSubmit = MediatorLiveData<Boolean>().also { result ->
-        result.addSource(emails) { result.value = canSubmit() }
+        result.addSource(name) { result.value = canSubmit() }
         result.addSource(displayBirthday) { result.value = canSubmit() }
         result.addSource(nameError) { result.value = canSubmit() }
     }
@@ -41,19 +41,12 @@ class PersonalInformationViewModel {
     }
 
     private fun canSubmit(): Boolean {
-        val email = emails.value ?: ""
-        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).find()) {
-            email.value = R.string.email_error
+        val name = name.value ?: ""
+        if (name.isEmpty()) {
+            nameError.value =R.string.name_error
         } else {
-            emailError.value = null
+            nameError.value = null
         }
-        val password = password.value ?: ""
-        if (password.length < LoginViewModel.MIN_PASSWORD_LENGTH || password.length > LoginViewModel.MAX_PASSWORD_LENGTH) {
-            passwordError.value = R.string.password_error
-        } else {
-            passwordError.value = null
-        }
-        println("canSubmit emailError:${emailError.value} passwordError:${passwordError.value}")
-        return emailError.value == null && passwordError.value == null
+        return nameError.value == null && gender.value != Gender.None && displayBirthday.value?.isNotEmpty() == true
     }
 }
