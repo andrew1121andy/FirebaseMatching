@@ -101,7 +101,6 @@ class LoginViewModel : ViewModel() {
         } else {
             passwordError.value = null
         }
-        println("canSubmit emailError:${emailError.value} passwordError:${passwordError.value}")
         return emailError.value == null && passwordError.value == null
     }
 

@@ -3,6 +3,7 @@
     <!--Common-->
     <string name="ok">OK</string>
     <string name="cancel">キャンセル</string>
+    <string name="empty"></string>
     <!--RecyclerView -->
     <string name="title_recycler_view">RecyclerView</string>
     <!--ViewPager -->
@@ -43,4 +44,13 @@
     <string name="female">女性</string>
     <string name="name_error">名前を正しく入れてください</string>
     <string name="register_personal_info_error">プロフィールの保存に失敗しました。\nもう一度お試しください。</string>
+    <!-- Profile -->
+    <string name="from_label">出身</string>
+    <string name="native_language">母語</string>
+    <string name="learn_language">学ぶ言語</string>
+    <string name="empty_hint">選択してください</string>
+    <string name="start_learn">学習を始める</string>
+    <string name="select_from_title">出身を選択してください</string>
+    <string name="select_native_language_title">母語を選択してください</string>
+    <string name="select_learn_language_title">学びたい言語を選択してください</string>
 </resources>

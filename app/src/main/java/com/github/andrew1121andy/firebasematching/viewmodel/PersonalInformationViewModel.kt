@@ -35,7 +35,7 @@ class PersonalInformationViewModel: ViewModel() {
     }
 
     val registerError = MutableLiveData<Unit>()
-    val registerSuccess = MutableLiveData<Unit>()
+    val registerSuccess = MutableLiveData<User>()
 
     fun updateBirthday(time: Long) {
         birthday = time
@@ -44,12 +44,10 @@ class PersonalInformationViewModel: ViewModel() {
 
     fun changeMale() {
         gender.postValue(Gender.Male)
-        println("${gender.value}")
     }
 
     fun changeFemale() {
         gender.postValue(Gender.Female)
-        println("${gender.value}")
     }
 
     fun saveUser() {
@@ -69,7 +67,7 @@ class PersonalInformationViewModel: ViewModel() {
                     registerError.postValue(null)
                     return@addOnCompleteListener
                 }
-                registerSuccess.postValue(null)
+                registerSuccess.postValue(user)
             }
     }
 

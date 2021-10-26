@@ -34,7 +34,7 @@ class PersonalInformationActivity: AppCompatActivity() {
                 }
             }
             registerSuccess.observe(this@PersonalInformationActivity) {
-               // TODO:次のActivityへ進む
+                ProfileActivity.start(this@PersonalInformationActivity, it)
             }
         }
     }
